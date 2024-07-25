@@ -1,0 +1,6 @@
+database:
+    dsn: 'mysql:host=nette-db;dbname=vloln1'
+    user: 'root'
+    password: 'heslo'
+    options:
+        lazy: yes

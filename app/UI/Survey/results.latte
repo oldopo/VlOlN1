@@ -1,0 +1,43 @@
+{block content}
+<h1>Survey Results <button><a href='/'>Create Survey</a> </button></h1>
+
+{control filterForm}
+{control sortForm}
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Comments</th>
+            <th>Consent</th>
+            <th>Interests</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $surveys as $survey}
+        <tr>
+            <td>{$survey->name}</td>
+            <td>{$survey->comments}</td>
+            <td>{$survey->consent ? 'Yes' : 'No'}</td>
+            <td>{$survey->interests}</td>
+            <td>{$survey->created_at|date:'Y-m-d H:i:s'}</td>
+        </tr>
+        {/foreach}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {if $paginator->getPageCount() > 1}
+        <div class="pagination">
+            <ul>
+                {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+                    <li class="{if $paginator->getPage() === $i}active{/if}">
+                        <a n:href="this page => $i">{$i}</a>
+                    </li>
+                {/for}
+            </ul>
+        </div>
+    {/if}
+</div>
+{/block}
