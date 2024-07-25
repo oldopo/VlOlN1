@@ -18,35 +18,42 @@ Requirements
 This Web Project is compatible with Nette 3.2 and requires PHP 8.1.
 
 
-Installation
+## Inštalácia
 ------------
 
-To install the Web Project, Composer is the recommended tool. If you're new to Composer,
-follow [these instructions](https://doc.nette.org/composer). Then, run:
+1. Naklonujte repozitár:
+   ```bash
+   git clone https://github.com/oldopo/VlOlN1.git
+   cd VlOlN1
 
-	composer create-project nette/web-project path/to/install
-	cd path/to/install
+2. Nainštalujte závislosti:
+   ```bash
+   composer install
 
-Ensure the `temp/` and `log/` directories are writable.
+3. Simulačná databáza definovaná v test local súbor pre pripojenie k databáze:
+   ```text
+   config/local.neon
 
+4. Spustite docker kontainer:
+   ```bash
+   docker-compose up
 
-Web Server Setup
-----------------
+5. Databáza a tabuľka sa importujte automaticky z:
+   ```text
+   sql/database.sql
 
-To quickly dive in, use PHP's built-in server:
+6. Spustenie (Uistite sa, že beží docker desktop)
+    ```bash
+    docker-compose up
 
-	php -S localhost:8000 -t www
+7. Testovanie
+   ```bash
+    vendor/bin/phpunit
 
-Then, open `http://localhost:8000` in your browser to view the welcome page.
+8. Vytvorenie Survey, prístup na formulár:
+   ```href
+   http://localhost:8000/survey
 
-For Apache or Nginx users, configure a virtual host pointing to your project's `www/` directory.
-
-**Important Note:** Ensure `app/`, `config/`, `log/`, and `temp/` directories are not web-accessible.
-Refer to [security warning](https://nette.org/security-warning) for more details.
-
-
-Minimal Skeleton
-----------------
-
-For demonstrating issues or similar tasks, rather than starting a new project, use
-this [minimal skeleton](https://github.com/nette/web-project/tree/minimal).
+9. Zobrazenie Results, výpis výsledkov:
+   ```href
+   http://localhost:8000/results
