@@ -34,26 +34,22 @@ This Web Project is compatible with Nette 3.2 and requires PHP 8.1.
    ```text
    config/local.neon
 
-4. Spustite docker kontainer:
-   ```bash
-   docker-compose up
-
-5. Databáza a tabuľka sa importujte automaticky z:
+4. Databáza a tabuľka sa importujte automaticky z:
    ```text
    sql/database.sql
 
-6. Spustenie (Uistite sa, že beží docker desktop)
+5. Spustenie (Uistite sa, že beží docker desktop)
     ```bash
     docker-compose up
 
-7. Testovanie
+6. Testovanie
    ```bash
     vendor/bin/phpunit
 
-8. Vytvorenie Survey, prístup na formulár:
+7. Vytvorenie Survey, prístup na formulár:
    ```href
    http://localhost:8000/survey
 
-9. Zobrazenie Results, výpis výsledkov:
+8. Zobrazenie Results, výpis výsledkov:
    ```href
    http://localhost:8000/results
