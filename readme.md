@@ -40,7 +40,7 @@ This Web Project is compatible with Nette 3.2 and requires PHP 8.1.
 
 5. Spustenie (Uistite sa, že beží docker desktop)
     ```bash
-    docker-compose up
+    docker-compose up -d
 
 6. Testovanie
    ```bash
@@ -48,8 +48,8 @@ This Web Project is compatible with Nette 3.2 and requires PHP 8.1.
 
 7. Vytvorenie Survey, prístup na formulár:
    ```href
-   http://localhost:8000/survey
+   http://localhost:8080/survey
 
 8. Zobrazenie Results, výpis výsledkov:
    ```href
-   http://localhost:8000/results
+   http://localhost:8080/results

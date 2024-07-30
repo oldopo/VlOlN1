@@ -29,9 +29,7 @@ class Bootstrap
 
         $configurator->addConfig($appDir . '/config/config.neon');
 
-        if ($configurator->isDebugMode()) {
-            $configurator->addConfig($appDir . '/config/config.local.neon');
-        }
+        $configurator->addConfig($appDir . '/config/config.local.neon');
 
         return $configurator;
     }
