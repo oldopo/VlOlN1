@@ -6,11 +6,12 @@ namespace App\UI\Survey;
 
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 
 final class SurveyPresenter extends Nette\Application\UI\Presenter
 {
     private Nette\Database\Context $database;
-    private $surveyFormFactory;
+    private SurveyFormFactory $surveyFormFactory;
 
     public function __construct(Nette\Database\Context $database, SurveyFormFactory $surveyFormFactory)
     {
@@ -19,7 +20,7 @@ final class SurveyPresenter extends Nette\Application\UI\Presenter
         $this->surveyFormFactory = $surveyFormFactory;
     }
 
-    protected function createComponentSurveyForm(): Nette\Application\UI\Form
+    protected function createComponentSurveyForm(): Form
     {
         $form = $this->surveyFormFactory->create();
 
@@ -28,7 +29,7 @@ final class SurveyPresenter extends Nette\Application\UI\Presenter
         return $form;
     }
 
-    public function surveyFormSucceeded(Nette\Application\UI\Form $form, $values): void
+    public function surveyFormSucceeded(Form $form, ArrayHash $values): void
     {
         $this->database->table('surveys')->insert([
             'name' => $values->name,
@@ -41,8 +42,13 @@ final class SurveyPresenter extends Nette\Application\UI\Presenter
         $this->redirect('this');
     }
 
-    public function renderResults($filter = null, $sort = null, $page = 1): void
+    public function renderResults(): void
     {
+        $section = $this->session->getSection('search');
+        $filter = $section->filter ?? '';
+        $sort = $section->sort ?? 'name';
+        $page = $this->getParameter('page') ?? 1;
+
         $query = $this->database->table('surveys');
 
         if ($filter) {
@@ -67,12 +73,12 @@ final class SurveyPresenter extends Nette\Application\UI\Presenter
     protected function createComponentFilterForm(): Form
     {
         $form = new Form;
-        $form->addText('filter', 'Name:')->setDefaultValue($this->getParameter('filter'));
+        $form->addText('filter', 'Name:')->setDefaultValue($this->session->getSection('search')->filter ?? '');
         $form->addSubmit('submit', 'Filter');
-        $form->onSuccess[] = function (Form $form, \stdClass $values): void {
+        $form->onSuccess[] = function (Form $form, ArrayHash $values): void {
+            $this->session->getSection('search')->filter = $values->filter;
             $this->redirect('results', [
-                'filter' => $values->filter,
-                'sort' => $this->getParameter('sort')
+                'page' => $this->getParameter('page')
             ]);
         };
         return $form;
@@ -84,15 +90,14 @@ final class SurveyPresenter extends Nette\Application\UI\Presenter
         $form->addSelect('sort', 'Sort by:', [
             'name' => 'Name',
             'created_at' => 'Created At'
-        ])->setDefaultValue($this->getParameter('sort'));
+        ])->setDefaultValue($this->session->getSection('search')->sort ?? 'name');
         $form->addSubmit('submit', 'Sort');
-        $form->onSuccess[] = function (Form $form, \stdClass $values): void {
+        $form->onSuccess[] = function (Form $form, ArrayHash $values): void {
+            $this->session->getSection('search')->sort = $values->sort;
             $this->redirect('results', [
-                'filter' => $this->getParameter('filter'),
-                'sort' => $values->sort
+                'page' => $this->getParameter('page')
             ]);
         };
         return $form;
     }
-
 }
